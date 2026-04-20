@@ -14,20 +14,39 @@ public class SecurityConfig {
     @Autowired
     private JwtFilter jwtFilter;
 
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .cors(cors -> {})
                 .csrf(csrf -> csrf.disable())
+                .cors(cors -> {})
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/draw/**").permitAll() // 🔥 ADD THIS
+                        .requestMatchers("/api/draw/**").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().authenticated()
-                );
+                )
+                .httpBasic(httpBasic -> httpBasic.disable())   // 🔥 IMPORTANT
+                .formLogin(form -> form.disable());             // 🔥 IMPORTANT
 
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
+//    @Bean
+//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//        http
+//                .cors(cors -> {})
+//                .csrf(csrf -> csrf.disable())
+//                .authorizeHttpRequests(auth -> auth
+//                        .requestMatchers("/api/auth/**").permitAll()
+//                        .requestMatchers("/api/draw/**").permitAll() // 🔥 ADD THIS
+//                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+//                        .anyRequest().authenticated()
+//                );
+//
+//        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+//
+//        return http.build();
+//    }
 }
