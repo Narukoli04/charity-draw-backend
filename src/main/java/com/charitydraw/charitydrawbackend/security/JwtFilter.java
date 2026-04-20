@@ -27,7 +27,7 @@ public class JwtFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         // 🔥 SKIP AUTH APIs
-        String path = request.getServletPath();
+        String path = request.getRequestURI();
         if (path.startsWith("/api/auth")) {
             filterChain.doFilter(request, response);
             return;
