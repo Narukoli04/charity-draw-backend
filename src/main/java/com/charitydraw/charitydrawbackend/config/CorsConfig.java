@@ -15,8 +15,10 @@ public class CorsConfig {
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
 
-        config.setAllowCredentials(true);
-        config.setAllowedOrigins(List.of("http://localhost:3000")); // frontend URL
+        // 🔥 IMPORTANT FIX
+        config.setAllowCredentials(false);
+        config.setAllowedOriginPatterns(List.of("*")); // 🚀 allow all origins
+
         config.setAllowedHeaders(List.of("*"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 
